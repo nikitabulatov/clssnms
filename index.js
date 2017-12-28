@@ -1,68 +1,60 @@
 const DEFAULT_OPTIONS = {
-  glue: '__'
-};
-
-const buildClassNameString = (opts) => {
-  return transliterate(`$block${opts.glue}${opts.element}`, opts);
-};
-
-const buildRestClassNameString = (opts, className) => {
-  return transliterate(className, opts);
+  glue: '__',
 };
 
 const transliterate = (string, values) => {
   if (!string) return '';
-  let regexp = [];
-  for (const key in values) {
-    if (values.hasOwnProperty(key)) regexp.push(`\\$${key}`);
-  }
+  let regexp = Object.keys(values).map(key => `\\$${key}`);
   regexp = new RegExp(regexp.join('|'), 'g');
-  return string.replace(regexp, (match) => values[match.replace('$', '')]);
+  return string.replace(regexp, match => values[match.replace('$', '')]);
 };
+
+const buildClassNameString = opts =>
+  transliterate(`$block${opts.glue}${opts.element}`, opts);
+
+const buildRestClassNameString = (opts, className) =>
+  transliterate(className, opts);
 
 const assignOptions = (block, element, opts) => {
   const result = Object.assign({}, DEFAULT_OPTIONS, opts, {
     rawBlock: block,
-    rawElement: element
+    rawElement: element,
   });
   result.block = transliterate(block, result);
   result.element = transliterate(element, result);
   return result;
-}
+};
 
 const buildRestClassNames = (classes, opts) => {
   const classesType = typeof classes;
-  switch (classesType) {
-    case 'string':
-      return [buildRestClassNameString(opts, classes)];
-    case 'object':
-      if (Array.isArray(classes)) {
-        return classes.map(buildRestClassNameString.bind(this, opts));
-      } else {
-        const result = [];
-        for (const className in classes) {
-          if (classes.hasOwnProperty(className) && classes[className]) {
-            result.push(buildRestClassNameString(opts, className));
-          }
+  let result = [];
+  if (classesType === 'string' || classesType === 'number') {
+    result.push(buildRestClassNameString(opts, classes));
+  } else if (classesType === 'object') {
+    if (Array.isArray(classes)) {
+      result = classes.map(buildRestClassNameString.bind(this, opts));
+    } else {
+      Object.keys(classes).forEach((className) => {
+        if (classes[className]) {
+          result.push(buildRestClassNameString(opts, className));
         }
-        return result;
-      }
-    default:
-      return [];
+      });
+    }
   }
-}
+  return result;
+};
 
-export default (block, _options) => (element, restClasses) => {
+module.exports = (block, _options) => (element, restClasses) => {
   const opts = assignOptions(block, element, _options);
   let classNames = [];
   if (element) {
     const className = buildClassNameString(opts);
     classNames.push(className);
-  } else if (!restClasses){
+  } else if (!restClasses) {
     classNames.push(opts.block);
   }
   if (restClasses) {
-    classNames = classNames.concat(buildRestClassNames(restClasses, opts))
+    classNames = classNames.concat(buildRestClassNames(restClasses, opts));
   }
   return classNames.join(' ');
 };
