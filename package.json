@@ -3,25 +3,19 @@
   "version": "0.0.4",
   "description": "Simple BEM-like class names tool",
   "main": "dist/index.js",
-  "dependencies": {},
   "devDependencies": {
     "ava": "^0.24.0",
-    "babel-cli": "^6.26.0",
-    "babel-plugin-transform-es2015-modules-umd": "^6.24.1",
-    "babel-preset-env": "^1.6.1",
-    "eslint": "^4.14.0",
-    "eslint-config-airbnb-base": "^12.1.0",
-    "eslint-plugin-import": "^2.8.0",
-    "install": "^0.10.2",
-    "npm": "^5.6.0"
+    "tslint": "^5.11.0",
+    "typescript": "^3.0.1"
   },
   "files": [
     "dist",
+    "*.d.ts",
     "*.md"
   ],
   "scripts": {
-    "test": "./node_modules/.bin/ava",
-    "build": "./node_modules/.bin/babel ./index.js -d ./dist",
+    "test": "ava",
+    "build": "tsc ./index.ts -d --outDir ./dist",
     "prepare": "npm run build && npm test"
   },
   "repository": {
