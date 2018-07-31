@@ -1,38 +1,38 @@
-import test from 'ava';
-import Clss from './dist/index';
+import test from 'ava'
+import Clss from './dist/index'
 
 test('simple usage', (t) => {
-  const clss = Clss('nav$foo', { foo: 'bar', glue: '---' });
-  t.deepEqual(clss(), 'navbar');
-  t.deepEqual(clss('item'), 'navbar---item');
-});
+  const clss = Clss('nav$foo', { foo: 'bar', glue: '---' })
+  t.deepEqual(clss(), 'navbar')
+  t.deepEqual(clss('item'), 'navbar---item')
+})
 
 test('transliterate element', (t) => {
-  const clss = Clss('navbar', { abc: 'test' });
-  t.deepEqual(clss('item-$block-$abc'), 'navbar__item-navbar-test');
-});
+  const clss = Clss('navbar', { abc: 'test' })
+  t.deepEqual(clss('item-$block-$abc'), 'navbar__item-navbar-test')
+})
 
 test('append rest classes passed by string with null element argument', (t) => {
-  const clss = Clss('navbar');
-  t.deepEqual(clss(null, '--is-active'), '--is-active');
-});
+  const clss = Clss('navbar')
+  t.deepEqual(clss(null, '--is-active'), '--is-active')
+})
 
 test('transliterate rest classes', (t) => {
-  const clss = Clss('nav$foo', { foo: 'bar' });
+  const clss = Clss('nav$foo', { foo: 'bar' })
   t.deepEqual(clss('item-$block', {
     '--is-active-$block-$element-$foo': true,
-  }), 'navbar__item-navbar --is-active-navbar-item-navbar-bar');
-});
+  }), 'navbar__item-navbar --is-active-navbar-item-navbar-bar')
+})
 
 test('append rest classes passed by object', (t) => {
-  const clss = Clss('navbar');
+  const clss = Clss('navbar')
   t.deepEqual(
     clss('item', { '--is-active': true, '--strong': false, '--with-animation': true }),
     'navbar__item --is-active --with-animation',
-  );
-});
+  )
+})
 
 test('append rest classes passed by array with null element argument', (t) => {
-  const clss = Clss('navbar');
-  t.deepEqual(clss(null, ['--is-active', '--strong']), '--is-active --strong');
-});
+  const clss = Clss('navbar')
+  t.deepEqual(clss(null, ['--is-active', '--strong']), '--is-active --strong')
+})
