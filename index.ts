@@ -52,7 +52,7 @@ const buildRestClassNames = (classes: RestClasses, opts: Options): string[] => {
   return result
 }
 
-export default (block: string, _options: Options) => (element: string, restClasses: RestClasses) => {
+export = (block: string, _options: Options) => (element: string, restClasses: RestClasses) => {
   const opts = assignOptions(block, element, _options)
   let classNames = []
   if (element) {
