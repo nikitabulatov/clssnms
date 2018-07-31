@@ -1,6 +1,6 @@
 {
   "name": "clssnms",
-  "version": "1.0.0-1",
+  "version": "1.0.0-2",
   "description": "Simple BEM-like class names tool",
   "main": "dist/index.js",
   "devDependencies": {
