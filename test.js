@@ -14,7 +14,7 @@ test('transliterate element', (t) => {
 
 test('append rest classes passed by string with null element argument', (t) => {
   const clss = Clss('navbar')
-  t.deepEqual(clss(null, '--is-active'), '--is-active')
+  t.deepEqual(clss(null, '--is-active'), 'navbar --is-active')
 })
 
 test('transliterate rest classes', (t) => {
@@ -34,5 +34,5 @@ test('append rest classes passed by object', (t) => {
 
 test('append rest classes passed by array with null element argument', (t) => {
   const clss = Clss('navbar')
-  t.deepEqual(clss(null, ['--is-active', '--strong']), '--is-active --strong')
+  t.deepEqual(clss(null, ['--is-active', '--strong']), 'navbar --is-active --strong')
 })

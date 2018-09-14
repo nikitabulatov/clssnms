@@ -58,7 +58,7 @@ export = (block: string, _options?: Options) => (element?: string | null, restCl
   if (element) {
     const className = buildClassNameString(opts)
     classNames.push(className)
-  } else if (!restClasses) {
+  } else {
     classNames.push(opts.block)
   }
   if (restClasses) {
