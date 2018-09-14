@@ -3,7 +3,7 @@ interface Options {
   glue: string
 }
 
-type RestClassesObject = { [key: string]: string }
+type RestClassesObject = { [key: string]: boolean }
 
 type RestClasses = RestClassesObject | string[] | string
 
@@ -52,7 +52,7 @@ const buildRestClassNames = (classes: RestClasses, opts: Options): string[] => {
   return result
 }
 
-export = (block: string, _options?: Options) => (element?: string, restClasses?: RestClasses) => {
+export = (block: string, _options?: Options) => (element?: string | null, restClasses?: RestClasses) => {
   const opts = assignOptions(block, element || '', _options || DEFAULT_OPTIONS)
   let classNames = []
   if (element) {
