@@ -4,7 +4,7 @@
   "description": "Simple BEM-like class names tool",
   "main": "dist/index.js",
   "devDependencies": {
-    "ava": "^0.24.0",
+    "ava": "^0.25.0",
     "tslint": "^5.11.0",
     "typescript": "^3.0.1"
   },
