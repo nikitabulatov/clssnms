@@ -35,4 +35,6 @@ test('append rest classes passed by object', (t) => {
 test('append rest classes passed by array with null element argument', (t) => {
   const clss = Clss('navbar')
   t.deepEqual(clss(null, ['--is-active', false, null, undefined, false, '--strong']), 'navbar --is-active --strong')
+  t.deepEqual(clss(null, []), 'navbar')
+  t.deepEqual(clss(null, [false, null, undefined]), 'navbar')
 })

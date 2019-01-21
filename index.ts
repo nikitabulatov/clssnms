@@ -40,7 +40,12 @@ const buildRestClassNames = (classes: RestClasses, opts: Options): string[] => {
     result.push(buildRestClassNameString(opts, classes as string))
   } else if (classesType === 'object') {
     if (Array.isArray(classes)) {
-      result = classes.filter(cls => !!cls).map((className: ClassValue) => buildRestClassNameString(opts, className))
+      result = classes.reduce((acc: string[], className: ClassValue) => {
+        if (className && typeof className === "string") {
+          acc.push(className);
+        }
+        return acc;
+      }, [])
     } else {
       result = Object.keys(classes).reduce((acc, className: string) => {
         const values = classes as RestClassesObject
