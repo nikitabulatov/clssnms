@@ -5,13 +5,15 @@ interface Options {
 
 type RestClassesObject = { [key: string]: boolean }
 
-type RestClasses = RestClassesObject | string[] | string
+type ClassValue = string | false | null | undefined
+
+type RestClasses = RestClassesObject | ClassValue[] | string
 
 const DEFAULT_OPTIONS = {
   glue: '__',
 }
 
-const transliterate = (string: string, values: Options) => {
+const transliterate = (string: ClassValue, values: Options) => {
   if (!string) return ''
   const regexpArr = Object.keys(values).map(key => `\\$${key}`)
   const regexp = new RegExp(regexpArr.join('|'), 'g')
@@ -21,7 +23,7 @@ const transliterate = (string: string, values: Options) => {
 const buildClassNameString = (opts: Options) =>
   transliterate(`$block${opts.glue}${opts.element}`, opts)
 
-const buildRestClassNameString = (opts: Options, className: string) =>
+const buildRestClassNameString = (opts: Options, className: ClassValue) =>
   transliterate(className, opts)
 
 const assignOptions = (block: string, element: string, opts: Options) => {
@@ -38,7 +40,7 @@ const buildRestClassNames = (classes: RestClasses, opts: Options): string[] => {
     result.push(buildRestClassNameString(opts, classes as string))
   } else if (classesType === 'object') {
     if (Array.isArray(classes)) {
-      result = classes.map((className: string) => buildRestClassNameString(opts, className))
+      result = classes.filter(cls => !!cls).map((className: ClassValue) => buildRestClassNameString(opts, className))
     } else {
       result = Object.keys(classes).reduce((acc, className: string) => {
         const values = classes as RestClassesObject
